@@ -1,6 +1,6 @@
 # KissPaginate
 
-[![CI Status](http://img.shields.io/travis/WANGjieJacques/KissPaginate.svg?style=flat)](https://travis-ci.org/WANG Jie/KissPaginate)
+[![CI Status](http://img.shields.io/travis/WANGjieJacques/KissPaginate.svg?style=flat)](https://travis-ci.org/WANGjieJacques/KissPaginate)
 [![Version](https://img.shields.io/cocoapods/v/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![License](https://img.shields.io/cocoapods/l/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![Platform](https://img.shields.io/cocoapods/p/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
@@ -61,7 +61,7 @@ KissPaginate is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "KissPaginate"
+pod 'KissPaginate'
 ```
 
 ## Author
