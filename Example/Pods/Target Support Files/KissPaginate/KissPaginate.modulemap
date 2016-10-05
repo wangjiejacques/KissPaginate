@@ -1,0 +1,6 @@
+framework module KissPaginate {
+  umbrella header "KissPaginate-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module Pods_KissPaginate_Example {
+  umbrella header "Pods-KissPaginate_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
