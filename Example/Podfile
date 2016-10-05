@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'KissPaginate_Example' do
+  pod 'KissPaginate', :path => '../'
+
+  target 'KissPaginate_Tests' do
+    inherit! :search_paths
+
+    pod 'Quick', '~> 0.8'
+  pod 'Nimble', '~> 3.0'
+  end
+end
