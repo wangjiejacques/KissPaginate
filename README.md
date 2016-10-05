@@ -1,6 +1,6 @@
 # KissPaginate
 
-[![CI Status](http://img.shields.io/travis/WANG Jie/KissPaginate.svg?style=flat)](https://travis-ci.org/WANG Jie/KissPaginate)
+[![CI Status](http://img.shields.io/travis/WANGjieJacques/KissPaginate.svg?style=flat)](https://travis-ci.org/WANG Jie/KissPaginate)
 [![Version](https://img.shields.io/cocoapods/v/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![License](https://img.shields.io/cocoapods/l/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![Platform](https://img.shields.io/cocoapods/p/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
