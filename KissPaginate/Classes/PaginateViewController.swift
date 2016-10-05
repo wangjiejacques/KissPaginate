@@ -13,36 +13,42 @@ import UIKit
 
 /// generic classes not works well
 
-class PaginateViewController: UIViewController {
+public class PaginateViewController: UIViewController {
 
-    typealias GetElementsSuccessHandler = (elements: [AnyObject], hasMoreElements: Bool) -> Void
+    public typealias GetElementsSuccessHandler = (elements: [AnyObject], hasMoreElements: Bool) -> Void
 
-    var elements: [AnyObject]!
+    public var elements: [AnyObject]!
     private var refreshControl: UIRefreshControl!
     private var bottomRefresh: UIActivityIndicatorView!
     private var hasMoreElements = true
     private var currentPage = 0
     private var isLoadingNextPage = false
     private var isRefreshing = false
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet public weak var tableView: UITableView!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         elements = []
         super.viewDidLoad()
         addRefresh()
     }
 
-    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+
+    /// Override this method to implement your web service call.
+    public var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
         preconditionFailure()
     }
 
-    func displayNoElementIfNeeded(noElement: Bool) {
+
+    /// Override this method to show/hide a view if there are elements returned by the web service
+    ///
+    /// - parameter noElement: if we have elements returned by web service or not.
+    public func displayNoElementIfNeeded(noElement: Bool) {
         preconditionFailure()
     }
 
     private func addRefresh() {
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.greenColor()
+
         refreshControl.addTarget(self, action: #selector(refreshElements), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
 
@@ -64,15 +70,15 @@ class PaginateViewController: UIViewController {
         tableView.contentSize.height += bottomRefresh.frame.size.height
     }
 
-    func startFullScreenRefresh() {
-
+    public func startFullScreenRefresh() {
+        showActivityIndicator(inView: tableView)
     }
 
-    func endFullScreenRefresh() {
-        
+    public func endFullScreenRefresh() {
+        hideActivityIndicator(inView: tableView)
     }
 
-    func endRefreshing() {
+    private func endRefreshing() {
         refreshControl.endRefreshing()
         isRefreshing = false
         endFullScreenRefresh()
@@ -80,8 +86,8 @@ class PaginateViewController: UIViewController {
 
 
 
-    // if you want to show elements in view did load, call this method.
-    func refreshElements() {
+    /// call this method to refresh elements.
+    public func refreshElements() {
         if isRefreshing {
             return
         }
@@ -99,8 +105,8 @@ class PaginateViewController: UIViewController {
     }
 
 
-    // you should call this method manually.
-    func loadNextPage() {
+    /// call this method to load next page.
+    public func loadNextPage() {
         if isLoadingNextPage {
             return
         }
@@ -127,11 +133,11 @@ class PaginateViewController: UIViewController {
 }
 
 extension PaginateViewController {
-    func getElement<T>(type: T.Type, at index: Int) -> T {
+    public func getElement<T>(type: T.Type, at index: Int) -> T {
         return elements[index] as! T
     }
 
-    func getElements<T>(type: T.Type) -> [T] {
+    public func getElements<T>(type: T.Type) -> [T] {
         return elements.map { $0 as! T }
     }
 }

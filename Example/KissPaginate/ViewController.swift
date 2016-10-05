@@ -7,18 +7,56 @@
 //
 
 import UIKit
+import KissPaginate
 
-class ViewController: UIViewController {
+class ViewController: PaginateViewController {
+
+    @IBOutlet weak var noElementLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        tableView.dataSource = self
+        refreshElements()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+        return getElementList
     }
 
+    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+        let elements = (0...20).map { "page \(page), element index" + String($0) }
+        delay(2) {
+            successHandler(elements: elements, hasMoreElements: true)
+        }
+    }
+
+    override func displayNoElementIfNeeded(noElement: Bool) {
+        noElementLabel.hidden = !noElement
+    }
 }
 
+extension ViewController: UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return elements.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
+        let element = getElement(String.self, at: indexPath.row)
+        cell.textLabel?.text = element
+        if elements.count == indexPath.row + 1 {
+            loadNextPage()
+        }
+        return cell
+    }
+}
+
+
+func delay(delay: Double = 0, closure: ()->()) {
+    dispatch_after(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)
+}
