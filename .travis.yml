@@ -15,4 +15,4 @@ script:
 - xcodebuild clean -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" | xcpretty
 - xcodebuild test -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" -sdk 'iphonesimulator10.0' -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' build test
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t '3ca0d802-2b34-44d1-a907-3fefb7bc0160'
