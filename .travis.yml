@@ -13,4 +13,4 @@ script:
 - cd Example
 - pod install
 - xcodebuild clean -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" | xcpretty
-- - xcodebuild test -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' | xcpretty
+- xcodebuild test -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' | xcpretty
