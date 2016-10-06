@@ -13,4 +13,6 @@ script:
 - cd Example
 - pod install
 - xcodebuild clean -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" | xcpretty
-- xcodebuild test -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" -sdk 'iphonesimulator10.0' -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' | xcpretty
+- xcodebuild test -workspace KissPaginate.xcworkspace -scheme "KissPaginate-Example" -sdk 'iphonesimulator10.0' -destination 'platform=iOS Simulator,name=iPhone 6s,OS=10.0' build test
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
