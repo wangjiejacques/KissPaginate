@@ -46,7 +46,67 @@
        |   45|}
        |   46|
 
-/Users/wangjie/Developer/iOS/MyPods/KissPaginate/Example/KissPaginate/ViewController.swift:
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/Example/KissPaginate/WithPaginateView.swift:
+       |    1|//
+       |    2|//  WithPaginateView.swift
+       |    3|//  KissPaginate
+       |    4|//
+       |    5|//  Created by WANG Jie on 06/10/2016.
+       |    6|//  Copyright © 2016 CocoaPods. All rights reserved.
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|import KissPaginate
+       |   11|
+       |   12|class WithPaginateView: UIViewController, PaginateView {
+       |   13|
+       |   14|    var presenter: PaginatePresenter!
+       |   15|    var refreshControl: UIRefreshControl!
+       |   16|    var bottomRefresh: UIActivityIndicatorView!
+       |   17|    @IBOutlet weak var tableView: UITableView!
+       |   18|    @IBOutlet weak var noElementLabel: UILabel!
+       |   19|    
+      0|   20|    override func viewDidLoad() {
+      0|   21|        super.viewDidLoad()
+      0|   22|        presenter = PaginatePresenter(paginatable: self)
+      0|   23|        presenter.start()
+      0|   24|        tableView.dataSource = self
+      0|   25|        refreshElements()
+      0|   26|    }
+       |   27|
+      0|   28|    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+      0|   29|        return getElementList
+      0|   30|    }
+       |   31|
+      0|   32|    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+      0|   33|        let elements = (0...20).map { "page \(page), element index" + String($0) }
+      0|   34|        delay(2) {
+      0|   35|            successHandler(elements: elements, hasMoreElements: true)
+      0|   36|        }
+      0|   37|    }
+       |   38|
+      0|   39|    func displayNoElementIfNeeded(noElement: Bool) {
+      0|   40|        noElementLabel.hidden = !noElement
+      0|   41|    }
+       |   42|}
+       |   43|
+       |   44|extension WithPaginateView: UITableViewDataSource {
+      0|   45|    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      0|   46|        return elements.count
+      0|   47|    }
+       |   48|
+      0|   49|    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+      0|   50|        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
+      0|   51|        let element = getElement(String.self, at: indexPath.row)
+      0|   52|        cell.textLabel?.text = element
+      0|   53|        if elements.count == indexPath.row + 1 {
+      0|   54|            loadNextPage()
+      0|   55|        }
+      0|   56|        return cell
+      0|   57|    }
+       |   58|}
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/Example/KissPaginate/WithPaginateViewController.swift:
        |    1|//
        |    2|//  ViewController.swift
        |    3|//  KissPaginate
@@ -58,7 +118,7 @@
        |    9|import UIKit
        |   10|import KissPaginate
        |   11|
-       |   12|class ViewController: PaginateViewController {
+       |   12|class WithPaginateViewController: PaginateViewController {
        |   13|
        |   14|    @IBOutlet weak var noElementLabel: UILabel!
        |   15|
@@ -84,7 +144,7 @@
       0|   35|    }
        |   36|}
        |   37|
-       |   38|extension ViewController: UITableViewDataSource {
+       |   38|extension WithPaginateViewController: UITableViewDataSource {
       0|   39|    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       0|   40|        return elements.count
       0|   41|    }

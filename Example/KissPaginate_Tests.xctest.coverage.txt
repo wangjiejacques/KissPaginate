@@ -16,7 +16,7 @@
       1|   15|        describe("Given a paginatePresenter") {
      14|   16|            beforeEach {
      14|   17|                paginateView = PaginateViewMock()
-     14|   18|                paginatePresenter = PaginatePresenter(paginateView: paginateView)
+     14|   18|                paginatePresenter = PaginatePresenter(paginatable: paginateView)
      14|   19|            }
       1|   20|            context("When the paginatePresenter starts") {
       3|   21|                beforeEach {
@@ -119,7 +119,7 @@
        |    9|import Foundation
        |   10|import KissPaginate
        |   11|
-       |   12|class PaginateViewMock: PaginateView {
+       |   12|class PaginateViewMock: Paginatable {
        |   13|
        |   14|    var elements: [Int]!
        |   15|    var addRefreshTimes = 0

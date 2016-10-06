@@ -11,7 +11,7 @@
        |   10|
        |   11|public class PaginatePresenter: NSObject {
        |   12|
-       |   13|    public weak var paginateView: PaginateView!
+       |   13|    public weak var paginatable: Paginatable!
        |   14|    var elements: [AnyObject] = []
        |   15|    
        |   16|    private var hasMoreElements = true
@@ -19,8 +19,8 @@
        |   18|    private var isLoadingNextPage = false
        |   19|    private var isRefreshing = false
        |   20|
-     14|   21|    public init(paginateView: PaginateView) {
-     14|   22|        self.paginateView = paginateView
+     14|   21|    public init(paginatable: Paginatable) {
+     14|   22|        self.paginatable = paginatable
      14|   23|    }
        |   24|
       0|   25|    public override init() {
@@ -28,9 +28,9 @@
       0|   27|    }
        |   28|
       3|   29|    public func start() {
-      3|   30|        paginateView.addRefresh()
-      3|   31|        paginateView.stopBottomRefresh()
-      3|   32|        paginateView.startFullScreenRefresh()
+      3|   30|        paginatable.addRefresh()
+      3|   31|        paginatable.stopBottomRefresh()
+      3|   32|        paginatable.startFullScreenRefresh()
       3|   33|    }
        |   34|
       8|   35|    public func refreshElements() {
@@ -38,16 +38,16 @@
       0|   37|            return
       8|   38|        }
       8|   39|        isRefreshing = true
-      8|   40|        paginateView.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
+      8|   40|        paginatable.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
       8|   41|            self.currentPage = 0
       8|   42|            self.hasMoreElements = hasMoreElements
       8|   43|            self.elements = elements
-      8|   44|            self.paginateView.endRefreshing()
-      8|   45|            self.paginateView.reloadElements()
+      8|   44|            self.paginatable.endRefreshing()
+      8|   45|            self.paginatable.reloadElements()
       8|   46|            self.isRefreshing = false
-      8|   47|            self.paginateView.displayNoElementIfNeeded(elements.count == 0)
+      8|   47|            self.paginatable.displayNoElementIfNeeded(elements.count == 0)
       0|   48|        }) { (error) in
-      0|   49|            self.paginateView.endRefreshing()
+      0|   49|            self.paginatable.endRefreshing()
       0|   50|            self.isRefreshing = false
       0|   51|        }
       8|   52|    }
@@ -63,20 +63,107 @@
       0|   62|            return
       3|   63|        }
       3|   64|        isLoadingNextPage = true
-      3|   65|        paginateView.startBottomRefresh()
-      3|   66|        paginateView.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
+      3|   65|        paginatable.startBottomRefresh()
+      3|   66|        paginatable.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
       3|   67|            self.elements = self.elements + elements
       3|   68|            self.hasMoreElements = hasMoreElements
-      3|   69|            self.paginateView.stopBottomRefresh()
-      3|   70|            self.paginateView.reloadElements()
+      3|   69|            self.paginatable.stopBottomRefresh()
+      3|   70|            self.paginatable.reloadElements()
       3|   71|            self.currentPage += 1
       3|   72|            self.isLoadingNextPage = false
       0|   73|        }) { (error) in
       0|   74|            self.isLoadingNextPage = false
-      0|   75|            self.paginateView.stopBottomRefresh()
+      0|   75|            self.paginatable.stopBottomRefresh()
       0|   76|        }
       3|   77|    }
        |   78|}
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/PaginateView.swift:
+       |    1|//
+       |    2|//  PaginateView.swift
+       |    3|//  Pods
+       |    4|//
+       |    5|//  Created by WANG Jie on 05/10/2016.
+       |    6|//
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|
+       |   11|public protocol PaginateView: Paginatable {
+       |   12|    var presenter: PaginatePresenter! { get set }
+       |   13|    var refreshControl: UIRefreshControl! { get set }
+       |   14|    var bottomRefresh: UIActivityIndicatorView! { get set }
+       |   15|    weak var tableView: UITableView! {get set }
+       |   16|}
+       |   17|
+       |   18|extension PaginateView where Self: UIViewController {
+       |   19|
+      0|   20|    public var elements: [AnyObject] {
+      0|   21|        return presenter.elements
+      0|   22|    }
+       |   23|
+      0|   24|    public func addRefresh() {
+      0|   25|        refreshControl = UIRefreshControl()
+      0|   26|        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), forControlEvents: .ValueChanged)
+      0|   27|        tableView.addSubview(refreshControl)
+      0|   28|
+      0|   29|        bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+      0|   30|        bottomRefresh.color = UIColor.grayColor()
+      0|   31|        tableView.tableFooterView = bottomRefresh
+      0|   32|    }
+       |   33|
+      0|   34|    public func startFullScreenRefresh() {
+      0|   35|        showActivityIndicator(inView: tableView)
+      0|   36|    }
+       |   37|
+      0|   38|    public func endFullScreenRefresh() {
+      0|   39|        hideActivityIndicator(inView: tableView)
+      0|   40|    }
+       |   41|
+      0|   42|    public func endRefreshing() {
+      0|   43|        refreshControl.endRefreshing()
+      0|   44|        endFullScreenRefresh()
+      0|   45|    }
+       |   46|
+      0|   47|    public func stopBottomRefresh() {
+      0|   48|        bottomRefresh.stopAnimating()
+      0|   49|        bottomRefresh.frame.size.height = 0
+      0|   50|    }
+       |   51|
+      0|   52|    public func startBottomRefresh() {
+      0|   53|        bottomRefresh.startAnimating()
+      0|   54|        bottomRefresh.frame.size.height = 70
+      0|   55|        tableView.contentSize.height += bottomRefresh.frame.size.height
+      0|   56|    }
+       |   57|
+       |   58|
+      0|   59|    public func reloadElements() {
+      0|   60|        self.tableView.reloadData()
+      0|   61|        // without this code, somethings the bottom cell is not showing.
+      0|   62|        var contentOffset = self.tableView.contentOffset
+      0|   63|        guard contentOffset.y > 0 else {
+      0|   64|            return
+      0|   65|        }
+      0|   66|        contentOffset.y += 10
+      0|   67|        self.tableView.setContentOffset(contentOffset, animated: true)
+      0|   68|    }
+       |   69|
+      0|   70|    public func refreshElements() {
+      0|   71|        presenter.refreshElements()
+      0|   72|    }
+       |   73|
+      0|   74|    public func loadNextPage() {
+      0|   75|        presenter.loadNextPage()
+      0|   76|    }
+       |   77|
+      0|   78|    public func getElement<T>(type: T.Type, at index: Int) -> T {
+      0|   79|        return elements[index] as! T
+      0|   80|    }
+       |   81|
+      0|   82|    public func getElements<T>(type: T.Type) -> [T] {
+      0|   83|        return elements.map { $0 as! T }
+      0|   84|    }
+       |   85|}
 
 /Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/PaginateViewController.swift:
        |    1|//
@@ -97,99 +184,31 @@
        |   16|/// generic classes not works well
        |   17|
        |   18|public class PaginateViewController: UIViewController {
-       |   19|
-      0|   20|    public var elements: [AnyObject] {
-      0|   21|        return presenter.elements
-      0|   22|    }
+       |   19|    public var presenter: PaginatePresenter!
+       |   20|    public var refreshControl: UIRefreshControl!
+       |   21|    public var bottomRefresh: UIActivityIndicatorView!
+       |   22|    @IBOutlet public weak var tableView: UITableView!
        |   23|
-       |   24|    var presenter: PaginatePresenter!
-       |   25|    private var refreshControl: UIRefreshControl!
-       |   26|    private var bottomRefresh: UIActivityIndicatorView!
-       |   27|    @IBOutlet public weak var tableView: UITableView!
-       |   28|
-      0|   29|    override public func viewDidLoad() {
-      0|   30|        super.viewDidLoad()
-      0|   31|        presenter = PaginatePresenter(paginateView: self)
-      0|   32|        presenter.start()
-      0|   33|    }
-       |   34|
-      0|   35|    public func refreshElements() {
-      0|   36|        presenter.refreshElements()
-      0|   37|    }
-       |   38|
-      0|   39|    public func loadNextPage() {
-      0|   40|        presenter.loadNextPage()
-      0|   41|    }
-       |   42|}
-       |   43|
-       |   44|extension PaginateViewController: PaginateView {
-       |   45|
-      0|   46|    public func addRefresh() {
-      0|   47|        refreshControl = UIRefreshControl()
-      0|   48|        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), forControlEvents: .ValueChanged)
-      0|   49|        tableView.addSubview(refreshControl)
-      0|   50|
-      0|   51|        bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-      0|   52|        bottomRefresh.color = UIColor.grayColor()
-      0|   53|        tableView.tableFooterView = bottomRefresh
-      0|   54|    }
-       |   55|
-      0|   56|    public func startFullScreenRefresh() {
-      0|   57|        showActivityIndicator(inView: tableView)
-      0|   58|    }
-       |   59|
-      0|   60|    public func endFullScreenRefresh() {
-      0|   61|        hideActivityIndicator(inView: tableView)
-      0|   62|    }
-       |   63|
-      0|   64|    public func endRefreshing() {
-      0|   65|        refreshControl.endRefreshing()
-      0|   66|        endFullScreenRefresh()
-      0|   67|    }
-       |   68|
-      0|   69|    public func stopBottomRefresh() {
-      0|   70|        bottomRefresh.stopAnimating()
-      0|   71|        bottomRefresh.frame.size.height = 0
-      0|   72|    }
-       |   73|
-      0|   74|    public func startBottomRefresh() {
-      0|   75|        bottomRefresh.startAnimating()
-      0|   76|        bottomRefresh.frame.size.height = 70
-      0|   77|        tableView.contentSize.height += bottomRefresh.frame.size.height
-      0|   78|    }
-       |   79|
-       |   80|
-      0|   81|    public func reloadElements() {
-      0|   82|        self.tableView.reloadData()
-      0|   83|        var contentOffset = self.tableView.contentOffset
-      0|   84|        contentOffset.y += 10
-      0|   85|        self.tableView.setContentOffset(contentOffset, animated: true)
-      0|   86|    }
-       |   87|
-       |   88|    /// Override this method to implement your web service call.
-      0|   89|    public var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
-      0|   90|        preconditionFailure("Override this method")
-      0|   91|    }
-       |   92|
-       |   93|
-       |   94|    /// Override this method to show/hide a view if there are elements returned by the web service
-       |   95|    ///
-       |   96|    /// - parameter noElement: if we have elements returned by web service or not.
-      0|   97|    public func displayNoElementIfNeeded(noElement: Bool) {
-      0|   98|        preconditionFailure("Override this method")
-      0|   99|    }
-       |  100|}
-       |  101|
-       |  102|
-       |  103|extension PaginateViewController {
-      0|  104|    public func getElement<T>(type: T.Type, at index: Int) -> T {
-      0|  105|        return elements[index] as! T
-      0|  106|    }
-       |  107|
-      0|  108|    public func getElements<T>(type: T.Type) -> [T] {
-      0|  109|        return elements.map { $0 as! T }
-      0|  110|    }
-       |  111|}
+      0|   24|    override public func viewDidLoad() {
+      0|   25|        super.viewDidLoad()
+      0|   26|        presenter = PaginatePresenter(paginatable: self)
+      0|   27|        presenter.start()
+      0|   28|    }
+       |   29|}
+       |   30|
+       |   31|extension PaginateViewController: PaginateView {
+       |   32|    /// Override this method to implement your web service call.
+      0|   33|    public var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+      0|   34|        preconditionFailure("Override this method")
+      0|   35|    }
+       |   36|
+       |   37|    /// Override this method to show/hide a view if there are elements returned by the web service
+       |   38|    ///
+       |   39|    /// - parameter noElement: if we have elements returned by web service or not.
+      0|   40|    public func displayNoElementIfNeeded(noElement: Bool) {
+      0|   41|        preconditionFailure("Override this method")
+      0|   42|    }
+       |   43|}
 
 /Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/UIViewController+loading.swift:
        |    1|//
