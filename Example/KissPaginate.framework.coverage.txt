@@ -1,0 +1,257 @@
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/PaginatePresenter.swift:
+       |    1|//
+       |    2|//  PaginatePresenter.swift
+       |    3|//  Pods
+       |    4|//
+       |    5|//  Created by WANG Jie on 05/10/2016.
+       |    6|//
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|
+       |   11|public class PaginatePresenter: NSObject {
+       |   12|
+       |   13|    public weak var paginateView: PaginateView!
+       |   14|    var elements: [AnyObject] = []
+       |   15|    
+       |   16|    private var hasMoreElements = true
+       |   17|    private var currentPage = 0
+       |   18|    private var isLoadingNextPage = false
+       |   19|    private var isRefreshing = false
+       |   20|
+     14|   21|    public init(paginateView: PaginateView) {
+     14|   22|        self.paginateView = paginateView
+     14|   23|    }
+       |   24|
+      0|   25|    public override init() {
+      0|   26|
+      0|   27|    }
+       |   28|
+      3|   29|    public func start() {
+      3|   30|        paginateView.addRefresh()
+      3|   31|        paginateView.stopBottomRefresh()
+      3|   32|        paginateView.startFullScreenRefresh()
+      3|   33|    }
+       |   34|
+      8|   35|    public func refreshElements() {
+      0|   36|        if isRefreshing {
+      0|   37|            return
+      8|   38|        }
+      8|   39|        isRefreshing = true
+      8|   40|        paginateView.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
+      8|   41|            self.currentPage = 0
+      8|   42|            self.hasMoreElements = hasMoreElements
+      8|   43|            self.elements = elements
+      8|   44|            self.paginateView.endRefreshing()
+      8|   45|            self.paginateView.reloadElements()
+      8|   46|            self.isRefreshing = false
+      8|   47|            self.paginateView.displayNoElementIfNeeded(elements.count == 0)
+      0|   48|        }) { (error) in
+      0|   49|            self.paginateView.endRefreshing()
+      0|   50|            self.isRefreshing = false
+      0|   51|        }
+      8|   52|    }
+       |   53|
+      3|   54|    public func loadNextPage() {
+      0|   55|        if isRefreshing {
+      0|   56|            return
+      3|   57|        }
+      0|   58|        if isLoadingNextPage {
+      0|   59|            return
+      3|   60|        }
+      0|   61|        guard hasMoreElements else {
+      0|   62|            return
+      3|   63|        }
+      3|   64|        isLoadingNextPage = true
+      3|   65|        paginateView.startBottomRefresh()
+      3|   66|        paginateView.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
+      3|   67|            self.elements = self.elements + elements
+      3|   68|            self.hasMoreElements = hasMoreElements
+      3|   69|            self.paginateView.stopBottomRefresh()
+      3|   70|            self.paginateView.reloadElements()
+      3|   71|            self.currentPage += 1
+      3|   72|            self.isLoadingNextPage = false
+      0|   73|        }) { (error) in
+      0|   74|            self.isLoadingNextPage = false
+      0|   75|            self.paginateView.stopBottomRefresh()
+      0|   76|        }
+      3|   77|    }
+       |   78|}
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/PaginateViewController.swift:
+       |    1|//
+       |    2|//  PaginateViewController.swift
+       |    3|//  Pods
+       |    4|//
+       |    5|//  Created by WANG Jie on 05/10/2016.
+       |    6|//
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|
+       |   11|import UIKit
+       |   12|
+       |   13|
+       |   14|public typealias GetElementsSuccessHandler = (elements: [AnyObject], hasMoreElements: Bool) -> Void
+       |   15|
+       |   16|/// generic classes not works well
+       |   17|
+       |   18|public class PaginateViewController: UIViewController {
+       |   19|
+      0|   20|    public var elements: [AnyObject] {
+      0|   21|        return presenter.elements
+      0|   22|    }
+       |   23|
+       |   24|    var presenter: PaginatePresenter!
+       |   25|    private var refreshControl: UIRefreshControl!
+       |   26|    private var bottomRefresh: UIActivityIndicatorView!
+       |   27|    @IBOutlet public weak var tableView: UITableView!
+       |   28|
+      0|   29|    override public func viewDidLoad() {
+      0|   30|        super.viewDidLoad()
+      0|   31|        presenter = PaginatePresenter(paginateView: self)
+      0|   32|        presenter.start()
+      0|   33|    }
+       |   34|
+      0|   35|    public func refreshElements() {
+      0|   36|        presenter.refreshElements()
+      0|   37|    }
+       |   38|
+      0|   39|    public func loadNextPage() {
+      0|   40|        presenter.loadNextPage()
+      0|   41|    }
+       |   42|}
+       |   43|
+       |   44|extension PaginateViewController: PaginateView {
+       |   45|
+      0|   46|    public func addRefresh() {
+      0|   47|        refreshControl = UIRefreshControl()
+      0|   48|        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), forControlEvents: .ValueChanged)
+      0|   49|        tableView.addSubview(refreshControl)
+      0|   50|
+      0|   51|        bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+      0|   52|        bottomRefresh.color = UIColor.grayColor()
+      0|   53|        tableView.tableFooterView = bottomRefresh
+      0|   54|    }
+       |   55|
+      0|   56|    public func startFullScreenRefresh() {
+      0|   57|        showActivityIndicator(inView: tableView)
+      0|   58|    }
+       |   59|
+      0|   60|    public func endFullScreenRefresh() {
+      0|   61|        hideActivityIndicator(inView: tableView)
+      0|   62|    }
+       |   63|
+      0|   64|    public func endRefreshing() {
+      0|   65|        refreshControl.endRefreshing()
+      0|   66|        endFullScreenRefresh()
+      0|   67|    }
+       |   68|
+      0|   69|    public func stopBottomRefresh() {
+      0|   70|        bottomRefresh.stopAnimating()
+      0|   71|        bottomRefresh.frame.size.height = 0
+      0|   72|    }
+       |   73|
+      0|   74|    public func startBottomRefresh() {
+      0|   75|        bottomRefresh.startAnimating()
+      0|   76|        bottomRefresh.frame.size.height = 70
+      0|   77|        tableView.contentSize.height += bottomRefresh.frame.size.height
+      0|   78|    }
+       |   79|
+       |   80|
+      0|   81|    public func reloadElements() {
+      0|   82|        self.tableView.reloadData()
+      0|   83|        var contentOffset = self.tableView.contentOffset
+      0|   84|        contentOffset.y += 10
+      0|   85|        self.tableView.setContentOffset(contentOffset, animated: true)
+      0|   86|    }
+       |   87|
+       |   88|    /// Override this method to implement your web service call.
+      0|   89|    public var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+      0|   90|        preconditionFailure("Override this method")
+      0|   91|    }
+       |   92|
+       |   93|
+       |   94|    /// Override this method to show/hide a view if there are elements returned by the web service
+       |   95|    ///
+       |   96|    /// - parameter noElement: if we have elements returned by web service or not.
+      0|   97|    public func displayNoElementIfNeeded(noElement: Bool) {
+      0|   98|        preconditionFailure("Override this method")
+      0|   99|    }
+       |  100|}
+       |  101|
+       |  102|
+       |  103|extension PaginateViewController {
+      0|  104|    public func getElement<T>(type: T.Type, at index: Int) -> T {
+      0|  105|        return elements[index] as! T
+      0|  106|    }
+       |  107|
+      0|  108|    public func getElements<T>(type: T.Type) -> [T] {
+      0|  109|        return elements.map { $0 as! T }
+      0|  110|    }
+       |  111|}
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/UIViewController+loading.swift:
+       |    1|//
+       |    2|//  UIViewController+loading.swift
+       |    3|//  Pods
+       |    4|//
+       |    5|//  Created by WANG Jie on 05/10/2016.
+       |    6|//
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|
+       |   11|let activityTag = 99
+       |   12|
+       |   13|extension UIViewController {
+       |   14|
+      0|   15|    private var rootView: UIView? {
+      0|   16|        return view.window?.rootViewController?.view
+      0|   17|    }
+       |   18|
+       |   19|    // if view is nil, show activity in rootView.
+       |   20|    // don't show two activity indicator in one controller.
+      0|   21|    func showActivityIndicator(inView view: UIView? = nil) {
+      0|   22|        guard let activityParent = view ?? rootView else { return }
+      0|   23|        guard activityParent.viewWithTag(activityTag) == nil else { return }
+      0|   24|        let activity = UIActivityIndicatorView()
+      0|   25|        activity.translatesAutoresizingMaskIntoConstraints = false
+      0|   26|        activity.activityIndicatorViewStyle = .Gray
+      0|   27|        activity.startAnimating()
+      0|   28|        activity.tag = activityTag
+      0|   29|        activityParent.addSubview(activity)
+      0|   30|        let centerXConstraint = NSLayoutConstraint(item: activity, attribute: .CenterX, relatedBy: .Equal, toItem: activityParent, attribute: .CenterX, multiplier: 1, constant: 0)
+      0|   31|        let centerYConstraint = NSLayoutConstraint(item: activity, attribute: .CenterY, relatedBy: .Equal, toItem: activityParent, attribute: .CenterY, multiplier: 1, constant: 0)
+      0|   32|        let widthEqual = NSLayoutConstraint(item: activity, attribute: .Width, relatedBy: .Equal, toItem: activityParent, attribute: .Width, multiplier: 1, constant: 0)
+      0|   33|        let heightEqual = NSLayoutConstraint(item: activity, attribute: .Height, relatedBy: .Equal, toItem: activityParent, attribute: .Height, multiplier: 1, constant: 0)
+      0|   34|        activityParent.addConstraints([centerXConstraint, centerYConstraint, widthEqual, heightEqual])
+      0|   35|        activity.layoutMargins = UIEdgeInsetsZero
+      0|   36|    }
+       |   37|
+      0|   38|    func hideActivityIndicator(inView view: UIView? = nil) {
+      0|   39|        guard let activityParent = view ?? rootView else { return }
+      0|   40|        activityParent.viewWithTag(activityTag)?.removeFromSuperview()
+      0|   41|    }
+       |   42|}
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/KissPaginate/Classes/Utils.swift:
+       |    1|//
+       |    2|//  Utils.swift
+       |    3|//  Pods
+       |    4|//
+       |    5|//  Created by WANG Jie on 06/10/2016.
+       |    6|//
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|
+      0|   11|public func delay(delay: Double = 0, closure: ()->()) {
+      0|   12|    dispatch_after(
+      0|   13|        dispatch_time(
+      0|   14|            DISPATCH_TIME_NOW,
+      0|   15|            Int64(delay * Double(NSEC_PER_SEC))
+      0|   16|        ),
+      0|   17|        dispatch_get_main_queue(), closure)
+      0|   18|}
+

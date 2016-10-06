@@ -73,6 +73,7 @@
 		9BD6DC9420DC334A3EEE8C5588546AB6 /* QCKDSL.h in Headers */ = {isa = PBXBuildFile; fileRef = E5484262055138D368755EC1F57CF629 /* QCKDSL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9D904B7EAD0EC56AD12E704757CAA640 /* SourceLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006DE8F0E7AF57F83456244DC6476758 /* SourceLocation.swift */; };
 		9EFD3EE819EB1FAA5EDE26E8DAA483CD /* EndWith.swift in Sources */ = {isa = PBXBuildFile; fileRef = E163190886EF521E9A6EF0AEA8DDF58C /* EndWith.swift */; };
+		A08BF9C51DA6A24D00A197E1 /* Paginatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08BF9C41DA6A24D00A197E1 /* Paginatable.swift */; };
 		A18E791645056D5563206104A3E3AD87 /* PostNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970DA4AB066879DA184213B424870595 /* PostNotification.swift */; };
 		A1F69DD3961B60955EFD28E2BDF446E8 /* Nimble.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AFC5F9A1761CD9D531BCA1C100AA6F /* Nimble.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A36AA1F586AD0D1506034127F1F20C49 /* QCKDSL.m in Sources */ = {isa = PBXBuildFile; fileRef = B03BEED1B684BDBDEF15F7507C058174 /* QCKDSL.m */; };
@@ -225,6 +226,7 @@
 		9E8DF6848FB22F3BD42F253F782F35AD /* QuickSpec.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QuickSpec.h; path = Sources/Quick/QuickSpec.h; sourceTree = "<group>"; };
 		9EBB75B641349590983492BDE1226103 /* ErrorUtility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ErrorUtility.swift; path = Sources/Quick/ErrorUtility.swift; sourceTree = "<group>"; };
 		9EE89ED860658A696433A663EFFBC649 /* QuickConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QuickConfiguration.h; path = Sources/Quick/Configuration/QuickConfiguration.h; sourceTree = "<group>"; };
+		A08BF9C41DA6A24D00A197E1 /* Paginatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginatable.swift; sourceTree = "<group>"; };
 		A1474DB694C67A1CABB7194D53E6B727 /* AssertionRecorder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssertionRecorder.swift; path = Sources/Nimble/Adapters/AssertionRecorder.swift; sourceTree = "<group>"; };
 		A52EE8B047FE8CD02361440CD0F74AD9 /* BeVoid.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeVoid.swift; path = Sources/Nimble/Matchers/BeVoid.swift; sourceTree = "<group>"; };
 		A7C286F75DE8C1F3ECFAB166779C6A55 /* NMBExceptionCapture.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NMBExceptionCapture.h; path = Sources/Nimble/Adapters/ObjectiveC/NMBExceptionCapture.h; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				F2D461A0A076ABBB0C056FB303F375AB /* PaginateViewController.swift */,
 				040A7825254565675D83E9AFEFF1E30B /* UIViewController+loading.swift */,
 				49D316DD23ABCFA3AE2B9BA248E0BA2D /* Utils.swift */,
+				A08BF9C41DA6A24D00A197E1 /* Paginatable.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 			files = (
 				331C8321695E1931940274B196845D2F /* KissPaginate-dummy.m in Sources */,
 				000EA75087C5D54AC3548F7BC89EEEA7 /* PaginatePresenter.swift in Sources */,
+				A08BF9C51DA6A24D00A197E1 /* Paginatable.swift in Sources */,
 				C41A205ADD31A0FB6552151FA2B5466C /* PaginateView.swift in Sources */,
 				88AA686929D5195E70B1E4A46B7BDD0B /* PaginateViewController.swift in Sources */,
 				371A8D614CE17237DD51A6EB399A00AA /* UIViewController+loading.swift in Sources */,

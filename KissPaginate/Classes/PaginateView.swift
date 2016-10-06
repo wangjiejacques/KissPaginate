@@ -8,23 +8,78 @@
 
 import Foundation
 
-public protocol PaginateView: class {
-    
-    func addRefresh()
+public protocol PaginateView: Paginatable {
+    var presenter: PaginatePresenter! { get set }
+    var refreshControl: UIRefreshControl! { get set }
+    var bottomRefresh: UIActivityIndicatorView! { get set }
+    weak var tableView: UITableView! {get set }
+}
 
-    func endRefreshing()
+extension PaginateView where Self: UIViewController {
 
-    func startFullScreenRefresh()
+    public var elements: [AnyObject] {
+        return presenter.elements
+    }
 
-    func endFullScreenRefresh()
+    public func addRefresh() {
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
 
-    func stopBottomRefresh()
+        bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+        bottomRefresh.color = UIColor.grayColor()
+        tableView.tableFooterView = bottomRefresh
+    }
 
-    func startBottomRefresh()
+    public func startFullScreenRefresh() {
+        showActivityIndicator(inView: tableView)
+    }
 
-    func reloadElements()
+    public func endFullScreenRefresh() {
+        hideActivityIndicator(inView: tableView)
+    }
 
-    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void { get }
+    public func endRefreshing() {
+        refreshControl.endRefreshing()
+        endFullScreenRefresh()
+    }
 
-    func displayNoElementIfNeeded(noElement: Bool)
+    public func stopBottomRefresh() {
+        bottomRefresh.stopAnimating()
+        bottomRefresh.frame.size.height = 0
+    }
+
+    public func startBottomRefresh() {
+        bottomRefresh.startAnimating()
+        bottomRefresh.frame.size.height = 70
+        tableView.contentSize.height += bottomRefresh.frame.size.height
+    }
+
+
+    public func reloadElements() {
+        self.tableView.reloadData()
+        // without this code, somethings the bottom cell is not showing.
+        var contentOffset = self.tableView.contentOffset
+        guard contentOffset.y > 0 else {
+            return
+        }
+        contentOffset.y += 10
+        self.tableView.setContentOffset(contentOffset, animated: true)
+    }
+
+    public func refreshElements() {
+        presenter.refreshElements()
+    }
+
+    public func loadNextPage() {
+        presenter.loadNextPage()
+    }
+
+    public func getElement<T>(type: T.Type, at index: Int) -> T {
+        return elements[index] as! T
+    }
+
+    public func getElements<T>(type: T.Type) -> [T] {
+        return elements.map { $0 as! T }
+    }
 }

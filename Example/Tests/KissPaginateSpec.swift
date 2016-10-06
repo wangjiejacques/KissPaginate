@@ -15,7 +15,7 @@ class KissPaginateSpec: QuickSpec {
         describe("Given a paginatePresenter") {
             beforeEach {
                 paginateView = PaginateViewMock()
-                paginatePresenter = PaginatePresenter(paginateView: paginateView)
+                paginatePresenter = PaginatePresenter(paginatable: paginateView)
             }
             context("When the paginatePresenter starts") {
                 beforeEach {

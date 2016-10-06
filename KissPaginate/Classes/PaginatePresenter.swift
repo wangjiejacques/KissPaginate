@@ -10,7 +10,7 @@ import Foundation
 
 public class PaginatePresenter: NSObject {
 
-    public weak var paginateView: PaginateView!
+    public weak var paginatable: Paginatable!
     var elements: [AnyObject] = []
     
     private var hasMoreElements = true
@@ -18,8 +18,8 @@ public class PaginatePresenter: NSObject {
     private var isLoadingNextPage = false
     private var isRefreshing = false
 
-    public init(paginateView: PaginateView) {
-        self.paginateView = paginateView
+    public init(paginatable: Paginatable) {
+        self.paginatable = paginatable
     }
 
     public override init() {
@@ -27,9 +27,9 @@ public class PaginatePresenter: NSObject {
     }
 
     public func start() {
-        paginateView.addRefresh()
-        paginateView.stopBottomRefresh()
-        paginateView.startFullScreenRefresh()
+        paginatable.addRefresh()
+        paginatable.stopBottomRefresh()
+        paginatable.startFullScreenRefresh()
     }
 
     public func refreshElements() {
@@ -37,16 +37,16 @@ public class PaginatePresenter: NSObject {
             return
         }
         isRefreshing = true
-        paginateView.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
+        paginatable.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
             self.currentPage = 0
             self.hasMoreElements = hasMoreElements
             self.elements = elements
-            self.paginateView.endRefreshing()
-            self.paginateView.reloadElements()
+            self.paginatable.endRefreshing()
+            self.paginatable.reloadElements()
             self.isRefreshing = false
-            self.paginateView.displayNoElementIfNeeded(elements.count == 0)
+            self.paginatable.displayNoElementIfNeeded(elements.count == 0)
         }) { (error) in
-            self.paginateView.endRefreshing()
+            self.paginatable.endRefreshing()
             self.isRefreshing = false
         }
     }
@@ -62,17 +62,17 @@ public class PaginatePresenter: NSObject {
             return
         }
         isLoadingNextPage = true
-        paginateView.startBottomRefresh()
-        paginateView.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
+        paginatable.startBottomRefresh()
+        paginatable.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
             self.elements = self.elements + elements
             self.hasMoreElements = hasMoreElements
-            self.paginateView.stopBottomRefresh()
-            self.paginateView.reloadElements()
+            self.paginatable.stopBottomRefresh()
+            self.paginatable.reloadElements()
             self.currentPage += 1
             self.isLoadingNextPage = false
         }) { (error) in
             self.isLoadingNextPage = false
-            self.paginateView.stopBottomRefresh()
+            self.paginatable.stopBottomRefresh()
         }
     }
 }

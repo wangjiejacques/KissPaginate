@@ -1,0 +1,185 @@
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/Example/Tests/KissPaginateSpec.swift:
+       |    1|// https://github.com/Quick/Quick
+       |    2|
+       |    3|import Quick
+       |    4|import Nimble
+       |    5|import KissPaginate
+       |    6|
+       |    7|/// Given-When-Then is a style of representing tests - or as its advocates would say - specifying a system's behavior using SpecificationByExample.
+       |    8|/// see http://martinfowler.com/bliki/GivenWhenThen.html
+       |    9|
+       |   10|class KissPaginateSpec: QuickSpec {
+      1|   11|    override func spec() {
+      1|   12|        var paginateView: PaginateViewMock!
+      1|   13|        var paginatePresenter: PaginatePresenter!
+      1|   14|
+      1|   15|        describe("Given a paginatePresenter") {
+     14|   16|            beforeEach {
+     14|   17|                paginateView = PaginateViewMock()
+     14|   18|                paginatePresenter = PaginatePresenter(paginateView: paginateView)
+     14|   19|            }
+      1|   20|            context("When the paginatePresenter starts") {
+      3|   21|                beforeEach {
+      3|   22|                    paginatePresenter.start()
+      3|   23|                }
+      1|   24|                it("Then the paginateView should add refresh once") {
+      1|   25|                    expect(paginateView.addRefreshTimes).to(equal(1))
+      1|   26|                }
+      1|   27|                it("Then the paginateView should stop bottom refresh once") {
+      1|   28|                    expect(paginateView.stopBottomRefreshTimes).to(equal(1))
+      1|   29|                }
+      1|   30|                it("Then the paginateView should start full screen refresh once") {
+      1|   31|                    expect(paginateView.startFullScreenRefreshTimes).to(equal(1))
+      1|   32|                }
+      1|   33|
+      1|   34|
+      1|   35|            }
+      1|   36|
+      1|   37|            context("When the paginatePresenter can getElements") {
+      7|   38|                beforeEach {
+      7|   39|                    paginateView.elements = [1, 2, 3]
+      7|   40|                }
+      1|   41|
+      1|   42|                context("When the paginatePresenter refreshs") {
+      4|   43|                    beforeEach {
+      4|   44|                        paginatePresenter.refreshElements()
+      4|   45|                    }
+      1|   46|
+      1|   47|                    it("Then the paginateView should show refresh") {
+      1|   48|                        /// this is done by UIRefreshControl, no need to test.
+      1|   49|                    }
+      1|   50|                    it("Then the paginateView should end refresh once") {
+      1|   51|                        expect(paginateView.endRefreshingTimes).to(equal(1))
+      1|   52|                    }
+      1|   53|                    it("Then the paginateView should reload elements") {
+      1|   54|                        expect(paginateView.reloadElementsTimes).to(equal(1))
+      1|   55|                    }
+      1|   56|                    it("Then the paginateView should not display the no elements view") {
+      1|   57|                        expect(paginateView.noElementDisplayed).to(beFalse())
+      1|   58|                    }
+      1|   59|                }
+      1|   60|
+      1|   61|                context("When the paginatePresenter loads next page") {
+      3|   62|                    beforeEach {
+      3|   63|                        paginateView.reset()
+      3|   64|                        paginatePresenter.loadNextPage()
+      3|   65|                    }
+      1|   66|                    it("Then the paginateView should not start bottom refresh once") {
+      1|   67|                        expect(paginateView.startBottomRefreshTimes).to(equal(1))
+      1|   68|                    }
+      1|   69|                    it("Then the paginateView should stop bottom refresh once") {
+      1|   70|                        expect(paginateView.stopBottomRefreshTimes).to(equal(1))
+      1|   71|                    }
+      1|   72|                    it("Then the paginateView should reload elements once") {
+      1|   73|                        expect(paginateView.reloadElementsTimes).to(equal(1))
+      1|   74|                    }
+      1|   75|                }
+      1|   76|
+      1|   77|            }
+      1|   78|
+      1|   79|            context("When the paginatePresenter gets empty elements") {
+      4|   80|                beforeEach {
+      4|   81|                    paginateView.elements = []
+      4|   82|                }
+      1|   83|
+      1|   84|                context("When the paginatePresenter refreshs") {
+      4|   85|                    beforeEach {
+      4|   86|                        paginatePresenter.refreshElements()
+      4|   87|                    }
+      1|   88|
+      1|   89|                    it("Then the paginateView should show refresh") {
+      1|   90|                        /// this is done by UIRefreshControl, no need to test.
+      1|   91|                    }
+      1|   92|                    it("Then the paginateView should end refresh once") {
+      1|   93|                        expect(paginateView.endRefreshingTimes).to(equal(1))
+      1|   94|                    }
+      1|   95|                    it("Then the paginateView should reload elements") {
+      1|   96|                        expect(paginateView.reloadElementsTimes).to(equal(1))
+      1|   97|                    }
+      1|   98|                    it("Then the paginateView should not display the no elements view") {
+      1|   99|                        expect(paginateView.noElementDisplayed).to(beTrue())
+      1|  100|                    }
+      1|  101|                }
+      1|  102|            }
+      1|  103|        }
+      1|  104|    }
+       |  105|}
+       |  106|
+       |  107|
+
+/Users/wangjie/Developer/iOS/MyPods/KissPaginate/Example/Tests/PaginateViewMock.swift:
+       |    1|//
+       |    2|//  PaginateViewMock.swift
+       |    3|//  KissPaginate
+       |    4|//
+       |    5|//  Created by WANG Jie on 06/10/2016.
+       |    6|//  Copyright © 2016 CocoaPods. All rights reserved.
+       |    7|//
+       |    8|
+       |    9|import Foundation
+       |   10|import KissPaginate
+       |   11|
+       |   12|class PaginateViewMock: PaginateView {
+       |   13|
+       |   14|    var elements: [Int]!
+       |   15|    var addRefreshTimes = 0
+       |   16|    var endRefreshingTimes = 0
+       |   17|    var startFullScreenRefreshTimes = 0
+       |   18|    var endFullScreenRefreshTimes = 0
+       |   19|    var stopBottomRefreshTimes = 0
+       |   20|    var startBottomRefreshTimes = 0
+       |   21|    var reloadElementsTimes = 0
+       |   22|    var noElementDisplayed: Bool?
+       |   23|
+      3|   24|    func reset() {
+      3|   25|        addRefreshTimes = 0
+      3|   26|        endRefreshingTimes = 0
+      3|   27|        startFullScreenRefreshTimes = 0
+      3|   28|        endFullScreenRefreshTimes = 0
+      3|   29|        stopBottomRefreshTimes = 0
+      3|   30|        startBottomRefreshTimes = 0
+      3|   31|        reloadElementsTimes = 0
+      3|   32|        noElementDisplayed = nil
+      3|   33|    }
+       |   34|
+      3|   35|    func addRefresh() {
+      3|   36|        addRefreshTimes += 1
+      3|   37|    }
+       |   38|
+      8|   39|    func endRefreshing() {
+      8|   40|        endRefreshingTimes += 1
+      8|   41|    }
+       |   42|
+      3|   43|    func startFullScreenRefresh() {
+      3|   44|        startFullScreenRefreshTimes += 1
+      3|   45|    }
+       |   46|
+      0|   47|    func endFullScreenRefresh() {
+      0|   48|        endFullScreenRefreshTimes += 1
+      0|   49|    }
+       |   50|
+      6|   51|    func stopBottomRefresh() {
+      6|   52|        stopBottomRefreshTimes += 1
+      6|   53|    }
+       |   54|
+      3|   55|    func startBottomRefresh() {
+      3|   56|        startBottomRefreshTimes += 1
+      3|   57|    }
+       |   58|
+     11|   59|    func reloadElements() {
+     11|   60|        reloadElementsTimes += 1
+     11|   61|    }
+       |   62|
+     11|   63|    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+     11|   64|        return getElementList
+     11|   65|    }
+       |   66|
+     11|   67|    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+     21|   68|        successHandler(elements: self.elements.map { String($0) }, hasMoreElements: true)
+     11|   69|    }
+       |   70|
+      8|   71|    func displayNoElementIfNeeded(noElement: Bool) {
+      8|   72|        noElementDisplayed = noElement
+      8|   73|    }
+       |   74|}
+

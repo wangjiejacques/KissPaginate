@@ -9,7 +9,7 @@
 import Foundation
 import KissPaginate
 
-class PaginateViewMock: PaginateView {
+class PaginateViewMock: Paginatable {
 
     var elements: [Int]!
     var addRefreshTimes = 0
