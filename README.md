@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![License](https://img.shields.io/cocoapods/l/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![Platform](https://img.shields.io/cocoapods/p/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
+[![codecov](https://codecov.io/gh/WANGjieJacques/KissPaginate/branch/master/graph/badge.svg)](https://codecov.io/gh/WANGjieJacques/KissPaginate)
 
 ## Example
 
