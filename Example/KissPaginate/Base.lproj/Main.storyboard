@@ -1,15 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="nIv-TF-lJU">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="Bpi-AT-lwj">
+            <objects>
+                <navigationController id="nIv-TF-lJU" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FHd-M2-gqr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bDw-u3-QyT" kind="relationship" relationship="rootViewController" id="d0y-QH-c2N"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ejh-HY-kLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1628" y="192"/>
+        </scene>
+        <!--KissPaginate-->
+        <scene sceneID="4Um-eg-WlC">
+            <objects>
+                <viewController id="bDw-u3-QyT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="U9E-UD-f8y"/>
+                        <viewControllerLayoutGuide type="bottom" id="gkV-lb-wOV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ab6-6z-MeC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4nC-NU-g7J">
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="With PaginateView"/>
+                                <connections>
+                                    <segue destination="I1T-mA-tz7" kind="show" id="LHL-wR-kU1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7LH-qD-RAg">
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="With PaginateViewController"/>
+                                <connections>
+                                    <segue destination="vXZ-lx-hvc" kind="show" id="srd-Mj-Oox"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4nC-NU-g7J" firstAttribute="height" secondItem="7LH-qD-RAg" secondAttribute="height" id="5Km-7L-dOc"/>
+                            <constraint firstItem="gkV-lb-wOV" firstAttribute="top" secondItem="4nC-NU-g7J" secondAttribute="bottom" id="Qrq-TC-58b"/>
+                            <constraint firstItem="4nC-NU-g7J" firstAttribute="top" secondItem="7LH-qD-RAg" secondAttribute="bottom" id="Ur7-mj-ETi"/>
+                            <constraint firstItem="7LH-qD-RAg" firstAttribute="leading" secondItem="Ab6-6z-MeC" secondAttribute="leading" id="gHo-Kt-94q"/>
+                            <constraint firstAttribute="trailing" secondItem="7LH-qD-RAg" secondAttribute="trailing" id="kJy-f0-UOE"/>
+                            <constraint firstAttribute="trailing" secondItem="4nC-NU-g7J" secondAttribute="trailing" id="kpc-ek-4su"/>
+                            <constraint firstItem="4nC-NU-g7J" firstAttribute="leading" secondItem="Ab6-6z-MeC" secondAttribute="leading" id="mDf-T0-ziF"/>
+                            <constraint firstItem="7LH-qD-RAg" firstAttribute="top" secondItem="U9E-UD-f8y" secondAttribute="bottom" id="uSv-RH-udA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="KissPaginate" id="von-Uu-TLx"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DDm-uu-zAM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-804" y="139"/>
+        </scene>
+        <!--With Paginate View-->
+        <scene sceneID="flX-yD-ytN">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="I1T-mA-tz7" customClass="WithPaginateView" customModule="KissPaginate_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y43-8I-Esw"/>
+                        <viewControllerLayoutGuide type="bottom" id="cQs-7K-k3h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FL4-6D-SC2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lNH-jx-ZVN">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="tqv-th-GlD">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tqv-th-GlD" id="Eak-oI-byp">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Element" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-l3-zpJ">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lNH-jx-ZVN" firstAttribute="top" secondItem="Y43-8I-Esw" secondAttribute="bottom" id="H70-d6-0ju"/>
+                            <constraint firstAttribute="trailing" secondItem="lNH-jx-ZVN" secondAttribute="trailing" id="ODv-dA-wxH"/>
+                            <constraint firstAttribute="trailing" secondItem="7ir-l3-zpJ" secondAttribute="trailing" id="XMs-iT-5k9"/>
+                            <constraint firstItem="cQs-7K-k3h" firstAttribute="top" secondItem="lNH-jx-ZVN" secondAttribute="bottom" id="ZmI-fk-8ek"/>
+                            <constraint firstItem="7ir-l3-zpJ" firstAttribute="leading" secondItem="FL4-6D-SC2" secondAttribute="leading" id="o6f-bX-0Df"/>
+                            <constraint firstItem="cQs-7K-k3h" firstAttribute="top" secondItem="7ir-l3-zpJ" secondAttribute="bottom" id="vHt-83-TdO"/>
+                            <constraint firstItem="7ir-l3-zpJ" firstAttribute="top" secondItem="FL4-6D-SC2" secondAttribute="top" id="yTM-jj-U4t"/>
+                            <constraint firstItem="lNH-jx-ZVN" firstAttribute="leading" secondItem="FL4-6D-SC2" secondAttribute="leading" id="zoB-bT-HOa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="noElementLabel" destination="7ir-l3-zpJ" id="9nt-9W-Vn7"/>
+                        <outlet property="tableView" destination="lNH-jx-ZVN" id="PTT-mn-uRt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nHe-Zv-8X4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-804" y="932"/>
+        </scene>
+        <!--With Paginate View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="KissPaginate_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="vXZ-lx-hvc" customClass="WithPaginateViewController" customModule="KissPaginate_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -25,7 +138,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CMu-xH-X6V" id="8Ez-Cr-HgQ">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -56,6 +169,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="57" y="139"/>
         </scene>
     </scenes>
 </document>

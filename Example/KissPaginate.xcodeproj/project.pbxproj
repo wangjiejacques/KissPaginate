@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
+		607FACD81AFB9204008FA782 /* WithPaginateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* WithPaginateViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* KissPaginateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* KissPaginateSpec.swift */; };
 		68DF25B4E6162C8C83FA1F11 /* Pods_KissPaginate_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF65570AE29F15C10781E94 /* Pods_KissPaginate_Tests.framework */; };
 		A07A00EF1DA63A0300670D17 /* PaginateViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07A00ED1DA5B21A00670D17 /* PaginateViewMock.swift */; };
+		A08BF9C71DA6A75400A197E1 /* WithPaginateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08BF9C61DA6A75400A197E1 /* WithPaginateView.swift */; };
 		D24C9CEEDF296A5C97AC1294 /* Pods_KissPaginate_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4A061540C8D13DDB365646 /* Pods_KissPaginate_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +35,7 @@
 		607FACD01AFB9204008FA782 /* KissPaginate_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KissPaginate_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		607FACD71AFB9204008FA782 /* WithPaginateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithPaginateViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		70C37714B3A596B74AA3B3B9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		8EF65570AE29F15C10781E94 /* Pods_KissPaginate_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissPaginate_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A07A00ED1DA5B21A00670D17 /* PaginateViewMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginateViewMock.swift; sourceTree = "<group>"; };
+		A08BF9C61DA6A75400A197E1 /* WithPaginateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithPaginateView.swift; sourceTree = "<group>"; };
 		B388B6932BA7B899283E3BCF /* Pods-KissPaginate_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissPaginate_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissPaginate_Example/Pods-KissPaginate_Example.release.xcconfig"; sourceTree = "<group>"; };
 		D20418038E878209DC237947 /* KissPaginate.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KissPaginate.podspec; path = ../KissPaginate.podspec; sourceTree = "<group>"; };
 		D60BD3BB03B6130E04A3D5FC /* Pods-KissPaginate_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissPaginate_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissPaginate_Tests/Pods-KissPaginate_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,7 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				607FACD71AFB9204008FA782 /* WithPaginateViewController.swift */,
+				A08BF9C61DA6A75400A197E1 /* WithPaginateView.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -364,8 +367,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				607FACD81AFB9204008FA782 /* WithPaginateViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				A08BF9C71DA6A75400A197E1 /* WithPaginateView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
