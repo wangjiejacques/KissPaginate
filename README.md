@@ -8,6 +8,7 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
+### Inherit from PaginateViewController
 ```swift
 class ViewController: PaginateViewController {
     @IBOutlet weak var noElementLabel: UILabel!
@@ -47,6 +48,60 @@ extension ViewController: UITableViewDataSource {
         cell.textLabel?.text = element
         if elements.count == indexPath.row + 1 {
             /// load the next page here.
+            loadNextPage()
+        }
+        return cell
+    }
+}
+```
+
+### Inherit from PaginateView
+
+if your ViewController already has a parent class, you can inherit from the protocal `PaginateView`
+
+```swift
+class ViewController: UIViewController, PaginateView {
+
+    var presenter: PaginatePresenter!
+    var refreshControl: UIRefreshControl!
+    var bottomRefresh: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var noElementLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        presenter = PaginatePresenter(paginatable: self)
+        presenter.start()
+        tableView.dataSource = self
+        refreshElements()
+    }
+
+    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+        return getElementList
+    }
+
+    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+        let elements = (0...20).map { "page \(page), element index" + String($0) }
+        delay(2) {
+            successHandler(elements: elements, hasMoreElements: true)
+        }
+    }
+
+    func displayNoElementIfNeeded(noElement: Bool) {
+        noElementLabel.hidden = !noElement
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return elements.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
+        let element = getElement(String.self, at: indexPath.row)
+        cell.textLabel?.text = element
+        if elements.count == indexPath.row + 1 {
             loadNextPage()
         }
         return cell
