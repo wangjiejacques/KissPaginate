@@ -11,6 +11,8 @@ import KissPaginate
 
 class PaginateViewMock: Paginatable {
 
+    var shouldSuccess: Bool?
+
     var elements: [Int]!
     var addRefreshTimes = 0
     var endRefreshingTimes = 0
@@ -65,7 +67,11 @@ class PaginateViewMock: Paginatable {
     }
 
     func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
-        successHandler(elements: self.elements.map { String($0) }, hasMoreElements: true)
+        if shouldSuccess! {
+            successHandler(elements: self.elements.map { String($0) }, hasMoreElements: true)
+        } else {
+            failureHandler(error: NSError(domain: "kisspaginate", code: 1, userInfo: nil))
+        }
     }
 
     func displayNoElementIfNeeded(noElement: Bool) {

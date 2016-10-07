@@ -22,10 +22,6 @@ public class PaginatePresenter: NSObject {
         self.paginatable = paginatable
     }
 
-    public override init() {
-
-    }
-
     public func start() {
         paginatable.addRefresh()
         paginatable.stopBottomRefresh()

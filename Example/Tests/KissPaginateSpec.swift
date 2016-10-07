@@ -38,39 +38,84 @@ class KissPaginateSpec: QuickSpec {
                 beforeEach {
                     paginateView.elements = [1, 2, 3]
                 }
-
-                context("When the paginatePresenter refreshs") {
+                context("When the paginatePresenter get elements success") {
                     beforeEach {
-                        paginatePresenter.refreshElements()
+                        paginateView.shouldSuccess = true
+                    }
+                    context("When the paginatePresenter refreshs") {
+                        beforeEach {
+                            paginatePresenter.refreshElements()
+                        }
+
+                        it("Then the paginateView should show refresh") {
+                            /// this is done by UIRefreshControl, no need to test.
+                        }
+                        it("Then the paginateView should end refresh once") {
+                            expect(paginateView.endRefreshingTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should reload elements") {
+                            expect(paginateView.reloadElementsTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should not display the no elements view") {
+                            expect(paginateView.noElementDisplayed).to(beFalse())
+                        }
                     }
 
-                    it("Then the paginateView should show refresh") {
-                        /// this is done by UIRefreshControl, no need to test.
-                    }
-                    it("Then the paginateView should end refresh once") {
-                        expect(paginateView.endRefreshingTimes).to(equal(1))
-                    }
-                    it("Then the paginateView should reload elements") {
-                        expect(paginateView.reloadElementsTimes).to(equal(1))
-                    }
-                    it("Then the paginateView should not display the no elements view") {
-                        expect(paginateView.noElementDisplayed).to(beFalse())
+                    context("When the paginatePresenter loads next page") {
+                        beforeEach {
+                            paginateView.reset()
+                            paginatePresenter.loadNextPage()
+                        }
+                        it("Then the paginateView should not start bottom refresh once") {
+                            expect(paginateView.startBottomRefreshTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should stop bottom refresh once") {
+                            expect(paginateView.stopBottomRefreshTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should reload elements once") {
+                            expect(paginateView.reloadElementsTimes).to(equal(1))
+                        }
                     }
                 }
 
-                context("When the paginatePresenter loads next page") {
+
+                context("When the paginatePresenter get elements failure") {
                     beforeEach {
-                        paginateView.reset()
-                        paginatePresenter.loadNextPage()
+                        paginateView.shouldSuccess = false
                     }
-                    it("Then the paginateView should not start bottom refresh once") {
-                        expect(paginateView.startBottomRefreshTimes).to(equal(1))
+                    context("When the paginatePresenter refreshs") {
+                        beforeEach {
+                            paginatePresenter.refreshElements()
+                        }
+
+                        it("Then the paginateView should show refresh") {
+                            /// this is done by UIRefreshControl, no need to test.
+                        }
+                        it("Then the paginateView should end refresh once") {
+                            expect(paginateView.endRefreshingTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should not reload elements") {
+                            expect(paginateView.reloadElementsTimes).to(equal(0))
+                        }
+                        it("Then the paginateView should not display the no elements view") {
+                            expect(paginateView.noElementDisplayed).to(beNil())
+                        }
                     }
-                    it("Then the paginateView should stop bottom refresh once") {
-                        expect(paginateView.stopBottomRefreshTimes).to(equal(1))
-                    }
-                    it("Then the paginateView should reload elements once") {
-                        expect(paginateView.reloadElementsTimes).to(equal(1))
+
+                    context("When the paginatePresenter loads next page") {
+                        beforeEach {
+                            paginateView.reset()
+                            paginatePresenter.loadNextPage()
+                        }
+                        it("Then the paginateView should not start bottom refresh once") {
+                            expect(paginateView.startBottomRefreshTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should stop bottom refresh once") {
+                            expect(paginateView.stopBottomRefreshTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should reload elements once") {
+                            expect(paginateView.reloadElementsTimes).to(equal(0))
+                        }
                     }
                 }
 
@@ -80,23 +125,27 @@ class KissPaginateSpec: QuickSpec {
                 beforeEach {
                     paginateView.elements = []
                 }
-
-                context("When the paginatePresenter refreshs") {
+                context("When the paginatePresenter gets elements success") {
                     beforeEach {
-                        paginatePresenter.refreshElements()
+                        paginateView.shouldSuccess = true
                     }
+                    context("When the paginatePresenter refreshs") {
+                        beforeEach {
+                            paginatePresenter.refreshElements()
+                        }
 
-                    it("Then the paginateView should show refresh") {
-                        /// this is done by UIRefreshControl, no need to test.
-                    }
-                    it("Then the paginateView should end refresh once") {
-                        expect(paginateView.endRefreshingTimes).to(equal(1))
-                    }
-                    it("Then the paginateView should reload elements") {
-                        expect(paginateView.reloadElementsTimes).to(equal(1))
-                    }
-                    it("Then the paginateView should not display the no elements view") {
-                        expect(paginateView.noElementDisplayed).to(beTrue())
+                        it("Then the paginateView should show refresh") {
+                            /// this is done by UIRefreshControl, no need to test.
+                        }
+                        it("Then the paginateView should end refresh once") {
+                            expect(paginateView.endRefreshingTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should reload elements") {
+                            expect(paginateView.reloadElementsTimes).to(equal(1))
+                        }
+                        it("Then the paginateView should not display the no elements view") {
+                            expect(paginateView.noElementDisplayed).to(beTrue())
+                        }
                     }
                 }
             }
