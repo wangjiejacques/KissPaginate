@@ -8,46 +8,46 @@
 
 import Foundation
 
-public class PaginatePresenter: NSObject {
+open class PaginatePresenter: NSObject {
 
-    public weak var paginatable: Paginatable!
-    var elements: [AnyObject] = []
+    open weak var paginatable: Paginatable!
+    var elements: [Any] = []
     
-    private var hasMoreElements = true
-    private var currentPage = 0
-    private var isLoadingNextPage = false
-    private var isRefreshing = false
+    fileprivate var hasMoreElements = true
+    fileprivate var currentPage = 0
+    fileprivate var isLoadingNextPage = false
+    fileprivate var isRefreshing = false
 
     public init(paginatable: Paginatable) {
         self.paginatable = paginatable
     }
 
-    public func start() {
+    open func start() {
         paginatable.addRefresh()
         paginatable.stopBottomRefresh()
         paginatable.startFullScreenRefresh()
     }
 
-    public func refreshElements() {
+    open func refreshElements() {
         if isRefreshing {
             return
         }
         isRefreshing = true
-        paginatable.getElementsClosure(page: 0, successHandler: { (elements, hasMoreElements) in
+        paginatable.getElementsClosure(0, { (elements, hasMoreElements) in
             self.currentPage = 0
             self.hasMoreElements = hasMoreElements
             self.elements = elements
             self.paginatable.endRefreshing()
             self.paginatable.reloadElements()
             self.isRefreshing = false
-            self.paginatable.displayNoElementIfNeeded(elements.count == 0)
+            self.paginatable.displayNoElementIfNeeded(noElement: elements.count == 0)
         }) { (error) in
             self.paginatable.endRefreshing()
             self.isRefreshing = false
         }
     }
 
-    public func loadNextPage() {
+    open func loadNextPage() {
         if isRefreshing {
             return
         }
@@ -59,7 +59,7 @@ public class PaginatePresenter: NSObject {
         }
         isLoadingNextPage = true
         paginatable.startBottomRefresh()
-        paginatable.getElementsClosure(page: currentPage+1, successHandler: { (elements, hasMoreElements) in
+        paginatable.getElementsClosure(currentPage+1, { (elements, hasMoreElements) in
             self.elements = self.elements + elements
             self.hasMoreElements = hasMoreElements
             self.paginatable.stopBottomRefresh()

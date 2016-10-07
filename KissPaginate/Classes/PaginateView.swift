@@ -17,17 +17,17 @@ public protocol PaginateView: Paginatable {
 
 extension PaginateView where Self: UIViewController {
 
-    public var elements: [AnyObject] {
+    public var elements: [Any] {
         return presenter.elements
     }
 
     public func addRefresh() {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
         bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        bottomRefresh.color = UIColor.grayColor()
+        bottomRefresh.color = UIColor.gray
         tableView.tableFooterView = bottomRefresh
     }
 
@@ -75,11 +75,11 @@ extension PaginateView where Self: UIViewController {
         presenter.loadNextPage()
     }
 
-    public func getElement<T>(type: T.Type, at index: Int) -> T {
+    public func getElement<T>(_ type: T.Type, at index: Int) -> T {
         return elements[index] as! T
     }
 
-    public func getElements<T>(type: T.Type) -> [T] {
+    public func getElements<T>(_ type: T.Type) -> [T] {
         return elements.map { $0 as! T }
     }
 }

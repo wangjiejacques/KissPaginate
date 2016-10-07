@@ -19,32 +19,32 @@ class WithPaginateViewController: PaginateViewController {
         refreshElements()
     }
 
-    override var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+    override var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+    func getElementList(_ page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: (_ error: NSError) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
         delay(2) {
-            successHandler(elements: elements, hasMoreElements: true)
+            successHandler(elements, true)
         }
     }
 
     override func displayNoElementIfNeeded(noElement: Bool) {
-        noElementLabel.hidden = !noElement
+        noElementLabel.isHidden = !noElement
     }
 }
 
 extension WithPaginateViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return elements.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
-        let element = getElement(String.self, at: indexPath.row)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
+        let element = getElement(String.self, at: (indexPath as NSIndexPath).row)
         cell.textLabel?.text = element
-        if elements.count == indexPath.row + 1 {
+        if elements.count == (indexPath as NSIndexPath).row + 1 {
             loadNextPage()
         }
         return cell

@@ -8,11 +8,7 @@
 
 import Foundation
 
-public func delay(delay: Double = 0, closure: ()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), closure)
+public func delay(_ delay: Double = 0, closure: @escaping ()->()) {
+    DispatchQueue.main.asyncAfter(
+        deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
 }

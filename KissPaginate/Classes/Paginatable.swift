@@ -24,7 +24,7 @@ public protocol Paginatable: class {
     func reloadElements()
 
     /// Override this method to implement your web service call.
-    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void { get }
+    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void { get }
 
     /// Override this method to show/hide a view if there are elements returned by the web service
     ///
