@@ -12,43 +12,41 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ### Inherit from PaginateViewController
 ```swift
 class ViewController: PaginateViewController {
+
     @IBOutlet weak var noElementLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        /// refresh the elements
         refreshElements()
     }
 
-    override var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+    override var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+    func getElementList(_ page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: (_ error: NSError) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
-        /// web service mock.
         delay(2) {
-            successHandler(elements: elements, hasMoreElements: true)
+            successHandler(elements, true)
         }
     }
 
     override func displayNoElementIfNeeded(noElement: Bool) {
-        noElementLabel.hidden = !noElement
+        noElementLabel.isHidden = !noElement
     }
 }
 
 extension ViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return elements.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
-        let element = getElement(String.self, at: indexPath.row)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
+        let element = getElement(String.self, at: (indexPath as NSIndexPath).row)
         cell.textLabel?.text = element
-        if elements.count == indexPath.row + 1 {
-            /// load the next page here.
+        if elements.count == (indexPath as NSIndexPath).row + 1 {
             loadNextPage()
         }
         return cell
@@ -60,8 +58,8 @@ extension ViewController: UITableViewDataSource {
 
 if your ViewController already has a parent class, you can inherit from the protocal `PaginateView`
 
-```swift
-class ViewController: UIViewController, PaginateView {
+```swift  
+class PaginateView: UIViewController, PaginateView {
 
     var presenter: PaginatePresenter!
     var refreshControl: UIRefreshControl!
@@ -77,37 +75,38 @@ class ViewController: UIViewController, PaginateView {
         refreshElements()
     }
 
-    var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+    func getElementList(page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: @escaping (NSError) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
         delay(2) {
-            successHandler(elements: elements, hasMoreElements: true)
+            successHandler(elements, true)
         }
     }
 
     func displayNoElementIfNeeded(noElement: Bool) {
-        noElementLabel.hidden = !noElement
+        noElementLabel.isHidden = !noElement
     }
 }
 
-extension ViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension PaginateView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return elements.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
-        let element = getElement(String.self, at: indexPath.row)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
+        let element = getElement(String.self, at: (indexPath as NSIndexPath).row)
         cell.textLabel?.text = element
-        if elements.count == indexPath.row + 1 {
+        if elements.count == (indexPath as NSIndexPath).row + 1 {
             loadNextPage()
         }
         return cell
     }
 }
+
 ```
 ## Requirements
 
