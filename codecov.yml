@@ -1,3 +1,4 @@
 ignore:
   - "Example/*"
   - "KissPaginate/Classes/*View*.swift"
+  - "KissPaginate/Classes/Utils.swift"
