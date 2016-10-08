@@ -6,6 +6,8 @@
 [![Platform](https://img.shields.io/cocoapods/p/KissPaginate.svg?style=flat)](http://cocoapods.org/pods/KissPaginate)
 [![codecov](https://codecov.io/gh/WANGjieJacques/KissPaginate/branch/master/graph/badge.svg)](https://codecov.io/gh/WANGjieJacques/KissPaginate)
 
+KissPaginate Simplify your implementation of tableView paginate.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
