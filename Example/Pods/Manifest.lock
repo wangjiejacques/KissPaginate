@@ -1,6 +1,6 @@
 PODS:
-  - KissPaginate (0.2.0)
-  - Nimble (5.0.0)
+  - KissPaginate (0.3.0)
+  - Nimble (5.1.1)
   - Quick (0.10.0)
 
 DEPENDENCIES:
@@ -13,10 +13,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  KissPaginate: 1099370c94059f6abfa9fe204fa29fa57b778e4a
-  Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
+  KissPaginate: e741573db8caa714a7ecf1868b4816270a97dfaa
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: 3f320056d729b6ae8c593024f0709fd9c2a6f319
+PODFILE CHECKSUM: af875349bd20611d83f6902ebbe3475f4e4ad5ba
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.1.1
