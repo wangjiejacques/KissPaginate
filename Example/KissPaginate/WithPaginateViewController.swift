@@ -19,11 +19,11 @@ class WithPaginateViewController: PaginateViewController {
         refreshElements()
     }
 
-    override var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
+    override var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (Error) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(_ page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: (_ error: NSError) -> Void) {
+    func getElementList(_ page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: (_ error: Error) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
         delay(2) {
             successHandler(elements, true)

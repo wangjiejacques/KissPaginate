@@ -62,15 +62,15 @@ class PaginateViewMock: Paginatable {
         reloadElementsTimes += 1
     }
 
-    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
+    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (Error) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(_ page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (_ error: NSError) -> Void) {
+    func getElementList(_ page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (_ error: Error) -> Void) {
         if shouldSuccess! {
             successHandler(self.elements.map { String($0) }, true)
         } else {
-            failureHandler(NSError(domain: "kisspaginate", code: 1, userInfo: nil))
+            failureHandler(Error(domain: "kisspaginate", code: 1, userInfo: nil))
         }
     }
 

@@ -25,11 +25,11 @@ class WithPaginateView: UIViewController, PaginateView {
         refreshElements()
     }
 
-    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (NSError) -> Void) -> Void {
+    var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (Error) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: @escaping (NSError) -> Void) {
+    func getElementList(page: Int, successHandler: @escaping GetElementsSuccessHandler, failureHandler: @escaping (Error) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
         delay(2) {
             successHandler(elements, true)

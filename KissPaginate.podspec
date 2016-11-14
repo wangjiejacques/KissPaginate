@@ -28,11 +28,11 @@ class ViewController: PaginateViewController {
         refreshElements()
     }
 
-    override var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) -> Void {
+    override var getElementsClosure: (page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: Error) -> Void) -> Void {
         return getElementList
     }
 
-    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: NSError) -> Void) {
+    func getElementList(page: Int, successHandler: GetElementsSuccessHandler, failureHandler: (error: Error) -> Void) {
         let elements = (0...20).map { "page \(page), element index" + String($0) }
         delay(2) {
             successHandler(elements: elements, hasMoreElements: true)
