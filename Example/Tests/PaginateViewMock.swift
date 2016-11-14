@@ -70,11 +70,15 @@ class PaginateViewMock: Paginatable {
         if shouldSuccess! {
             successHandler(self.elements.map { String($0) }, true)
         } else {
-            failureHandler(Error(domain: "kisspaginate", code: 1, userInfo: nil))
+            failureHandler(ErrorMoke())
         }
     }
 
     func displayNoElementIfNeeded(noElement: Bool) {
         noElementDisplayed = noElement
     }
+}
+
+class ErrorMoke: Error {
+
 }
