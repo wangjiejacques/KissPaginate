@@ -11,7 +11,7 @@ import KissPaginate
 
 class WithPaginateView: UIViewController, PaginateView {
 
-    var presenter: PaginatePresenter!
+    var paginatePresenter: PaginatePresenter!
     var refreshControl: UIRefreshControl!
     var bottomRefresh: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -19,8 +19,8 @@ class WithPaginateView: UIViewController, PaginateView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = PaginatePresenter(paginatable: self)
-        presenter.start()
+        paginatePresenter = PaginatePresenter(paginatable: self)
+        paginatePresenter.start()
         tableView.dataSource = self
         refreshElements()
     }

@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol PaginateView: Paginatable {
-    var presenter: PaginatePresenter! { get set }
+    var paginatePresenter: PaginatePresenter! { get set }
     var refreshControl: UIRefreshControl! { get set }
     var bottomRefresh: UIActivityIndicatorView! { get set }
     weak var tableView: UITableView! {get set }
@@ -23,12 +23,12 @@ public protocol PaginateView: Paginatable {
 extension PaginateView where Self: UIViewController {
 
     public var elements: [Any] {
-        return presenter.elements
+        return paginatePresenter.elements
     }
 
     public func addRefresh() {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(presenter, action: #selector(PaginatePresenter.refreshElements), for: .valueChanged)
+        refreshControl.addTarget(paginatePresenter, action: #selector(PaginatePresenter.refreshElements), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
         bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
@@ -73,11 +73,11 @@ extension PaginateView where Self: UIViewController {
     }
 
     public func refreshElements() {
-        presenter.refreshElements()
+        paginatePresenter.refreshElements()
     }
 
     public func loadNextPage() {
-        presenter.loadNextPage()
+        paginatePresenter.loadNextPage()
     }
 
     public func getElement<T>(_ type: T.Type, at index: Int) -> T {

@@ -16,15 +16,15 @@ public typealias GetElementsSuccessHandler = (_ elements: [Any], _ hasMoreElemen
 /// generic classes not works well
 
 open class PaginateViewController: UIViewController, PaginateView {
-    open var presenter: PaginatePresenter!
+    open var paginatePresenter: PaginatePresenter!
     open var refreshControl: UIRefreshControl!
     open var bottomRefresh: UIActivityIndicatorView!
     @IBOutlet open weak var tableView: UITableView!
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        presenter = PaginatePresenter(paginatable: self)
-        presenter.start()
+        paginatePresenter = PaginatePresenter(paginatable: self)
+        paginatePresenter.start()
     }
 }
 
