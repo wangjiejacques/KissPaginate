@@ -16,6 +16,8 @@ public protocol PaginateView: Paginatable {
 
     func reloadElements()
     func refreshElements()
+    func getElement<T>(_ type: T.Type, at index: Int) -> T
+    func getElements<T>(_ type: T.Type) -> [T]
 }
 
 extension PaginateView where Self: UIViewController {
