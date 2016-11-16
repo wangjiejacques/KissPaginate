@@ -13,6 +13,9 @@ public protocol PaginateView: Paginatable {
     var refreshControl: UIRefreshControl! { get set }
     var bottomRefresh: UIActivityIndicatorView! { get set }
     weak var tableView: UITableView! {get set }
+
+    func reloadElements()
+    func refreshElements()
 }
 
 extension PaginateView where Self: UIViewController {
