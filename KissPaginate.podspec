@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'KissPaginate'
-  s.version          = '0.3.3'
+  s.version          = '0.3.4'
   s.summary          = 'Simplify your implementation of tableView paginate.'
 
 # This description is used to generate tags and improve search results.
