@@ -42,8 +42,8 @@ platform :ios do
   lane :release do
     version_bump_podspec
 	version = version_get_podspec
-    commit_version_bump(message: "Version #{version}")
-    add_git_tag(tag: "{version}")
+    git_commit(path: ".", message: "#{version}")
+    add_git_tag(tag: "#{version}")
     push_git_tags
     push_to_git_remote
     pod_push
