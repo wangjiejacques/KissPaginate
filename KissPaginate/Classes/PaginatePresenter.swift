@@ -11,7 +11,7 @@ import Foundation
 open class PaginatePresenter: NSObject {
 
     open weak var paginatable: Paginatable!
-    var elements: [Any] = []
+    public var elements: [Any] = []
     
     fileprivate var hasMoreElements = true
     fileprivate var currentPage = 0
