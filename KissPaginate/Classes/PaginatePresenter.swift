@@ -25,7 +25,6 @@ open class PaginatePresenter: NSObject {
     open func start() {
         paginatable.addRefresh()
         paginatable.stopBottomRefresh()
-        paginatable.startFullScreenRefresh()
     }
 
     open func refreshElements(sender: Any? = nil) {

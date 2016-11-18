@@ -27,11 +27,6 @@ class KissPaginateSpec: QuickSpec {
                 it("Then the paginateView should stop bottom refresh once") {
                     expect(paginateView.stopBottomRefreshTimes).to(equal(1))
                 }
-                it("Then the paginateView should start full screen refresh once") {
-                    expect(paginateView.startFullScreenRefreshTimes).to(equal(1))
-                }
-
-
             }
 
             context("When the paginatePresenter can getElements") {
