@@ -37,11 +37,11 @@ extension PaginateView where Self: UIViewController {
     }
 
     public func startFullScreenRefresh() {
-        showActivityIndicator(inView: tableView)
+        showActivityIndicator(inView: view)
     }
 
     public func endFullScreenRefresh() {
-        hideActivityIndicator(inView: tableView)
+        hideActivityIndicator(inView: view)
     }
 
     public func endRefreshing() {

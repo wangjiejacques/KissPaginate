@@ -24,6 +24,7 @@ extension UIViewController {
         let activity = UIActivityIndicatorView()
         activity.translatesAutoresizingMaskIntoConstraints = false
         activity.activityIndicatorViewStyle = .gray
+        activity.backgroundColor = UIColor.white
         activity.startAnimating()
         activity.tag = activityTag
         activityParent.addSubview(activity)
