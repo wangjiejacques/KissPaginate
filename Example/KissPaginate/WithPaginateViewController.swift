@@ -16,7 +16,7 @@ class WithPaginateViewController: PaginateViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        refreshElements()
+        refreshElements(sender: nil)
     }
 
     override var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (Error) -> Void) -> Void {

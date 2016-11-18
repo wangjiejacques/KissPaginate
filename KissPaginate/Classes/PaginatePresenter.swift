@@ -28,7 +28,10 @@ open class PaginatePresenter: NSObject {
         paginatable.startFullScreenRefresh()
     }
 
-    open func refreshElements() {
+    open func refreshElements(sender: Any? = nil) {
+        if !(sender is UIRefreshControl) {
+            paginatable.startFullScreenRefresh()
+        }
         if isRefreshing {
             return
         }

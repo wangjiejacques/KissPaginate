@@ -15,7 +15,7 @@ public protocol PaginateView: Paginatable {
     weak var tableView: UITableView! {get set }
 
     func reloadElements()
-    func refreshElements()
+    func refreshElements(sender: Any?)
     func getElement<T>(_ type: T.Type, at index: Int) -> T
     func getElements<T>(_ type: T.Type) -> [T]
 }
@@ -28,7 +28,7 @@ extension PaginateView where Self: UIViewController {
 
     public func addRefresh() {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(paginatePresenter, action: #selector(PaginatePresenter.refreshElements), for: .valueChanged)
+        refreshControl.addTarget(paginatePresenter, action: #selector(PaginatePresenter.refreshElements(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
         bottomRefresh = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
@@ -72,8 +72,8 @@ extension PaginateView where Self: UIViewController {
         self.tableView.setContentOffset(contentOffset, animated: true)
     }
 
-    public func refreshElements() {
-        paginatePresenter.refreshElements()
+    public func refreshElements(sender: Any?) {
+        paginatePresenter.refreshElements(sender: sender)
     }
 
     public func loadNextPage() {
