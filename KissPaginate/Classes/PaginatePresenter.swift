@@ -49,6 +49,11 @@ open class PaginatePresenter: NSObject {
         }
     }
 
+    open func cancelRefresh() {
+        self.paginatable.endRefreshing()
+        self.isRefreshing = false
+    }
+
     open func loadNextPage() {
         if isRefreshing {
             return
