@@ -28,6 +28,7 @@ extension PaginateView where Self: UIViewController {
 
     public func addRefresh() {
         refreshControl = UIRefreshControl()
+        refreshControl.layer.zPosition = -1
         refreshControl.addTarget(paginatePresenter, action: #selector(PaginatePresenter.refreshElements(sender:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
 
