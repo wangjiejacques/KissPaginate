@@ -26,9 +26,7 @@ open class PaginateViewController: UIViewController, PaginateView {
         paginatePresenter = PaginatePresenter(paginatable: self)
         paginatePresenter.start()
     }
-}
 
-extension PaginateViewController {
     /// Override this method to implement your web service call.
     open var getElementsClosure: (_ page: Int, _ successHandler: @escaping GetElementsSuccessHandler, _ failureHandler: @escaping (Error) -> Void) -> Void {
         preconditionFailure("Override this method")
