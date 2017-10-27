@@ -27,7 +27,7 @@ open class PaginatePresenter: NSObject {
         paginatable.stopBottomRefresh()
     }
 
-    open func refreshElements(sender: Any? = nil) {
+    @objc open func refreshElements(sender: Any? = nil) {
         if !(sender is UIRefreshControl) {
             paginatable.startFullScreenRefresh()
         }
